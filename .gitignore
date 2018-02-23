@@ -1,0 +1,11 @@
+bin/
+build/
+classes/
+dist/
+docs/
+tests/classes/
+tests/output/
+lib/
+/.fudge-proto-gitignore
+/MANIFEST.MF
+build.number

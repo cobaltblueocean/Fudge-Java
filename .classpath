@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="build/classes" path="src"/>
+	<classpathentry kind="src" output="tests/classes" path="tests/unit"/>
+	<classpathentry excluding="org/fudgemsg/" kind="src" path="tests/interop"/>
+	<classpathentry excluding="src/|tests/unit/|tests/interop/|tests/interop/org/fudgemsg/" kind="src" path=""/>
+	<classpathentry kind="src" path="tests/interop/org/fudgemsg"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?ivyXmlPath=ivy.xml&amp;confs=*"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mercury21/Documents/Project/Fudge-Java-master/lib/json-20140107.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mercury21/Documents/Project/Fudge-Java-master/lib/scannotation-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mercury21/Documents/Project/Fudge-Java-master/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mercury21/Documents/Project/Fudge-Java-master/lib/mongodb-driver-3.4.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
