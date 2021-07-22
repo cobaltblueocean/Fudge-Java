@@ -23,7 +23,7 @@ import org.fudgemsg.taxon.FudgeTaxonomy;
 import org.fudgemsg.taxon.ImmutableMapTaxonomyResolver;
 import org.fudgemsg.taxon.MapFudgeTaxonomy;
 import org.fudgemsg.xml.FudgeXMLStreamWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 

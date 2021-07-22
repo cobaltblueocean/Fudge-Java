@@ -21,7 +21,7 @@ import org.fudgemsg.FudgeFieldContainer;
 import org.fudgemsg.MutableFudgeFieldContainer;
 import org.fudgemsg.StandardFudgeMessages;
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.mongodb.DBObject;
 

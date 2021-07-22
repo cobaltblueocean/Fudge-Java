@@ -26,10 +26,10 @@ import org.fudgemsg.json.FudgeJSONStreamWriter;
 import org.fudgemsg.taxon.FudgeTaxonomy;
 import org.fudgemsg.taxon.ImmutableMapTaxonomyResolver;
 import org.fudgemsg.taxon.MapFudgeTaxonomy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.fudgemsg.test.FudgeUtils.assertAllFieldsMatch;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * 

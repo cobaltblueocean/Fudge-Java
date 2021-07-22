@@ -15,24 +15,20 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.fudgemsg.types.IndicatorType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.Test;
 
 /**
  * Check that the {@code getXXX} methods in FudgeFieldContainer implementations
  * do as expected when duplicate field names are found. It is parameterized so
  * that all of the concrete instances can be passed in.
  */
-@RunWith(Parameterized.class)
 public class DuplicateFieldNameTest {
   
   private static final String FIELD_NAME = "name";
@@ -97,7 +93,6 @@ public class DuplicateFieldNameTest {
    * 
    * @return collection of single element arrays of {@code FudgeFieldContainer} implementations
    */
-  @Parameters
   public static Collection<Object[]> getParameters () {
     final List<Object[]> params = new ArrayList<Object[]> (2);
     params.add (new Object[] { createFudgeMsg () });

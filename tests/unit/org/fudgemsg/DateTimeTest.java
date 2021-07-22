@@ -15,8 +15,8 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +39,7 @@ import org.fudgemsg.types.DateTimeAccuracy;
 import org.fudgemsg.types.FudgeDate;
 import org.fudgemsg.types.FudgeDateTime;
 import org.fudgemsg.types.FudgeTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests the Date, Time and DateTime implementations
@@ -106,7 +106,7 @@ public class DateTimeTest {
         if (i == j) {
           assertEquals (iDate, jDate);
         } else {
-          assertFalse ("(" + i + ", " + j + ") " + iDate + " == " + jDate, iDate.equals (jDate));
+          assertFalse ( iDate.equals (jDate), "(" + i + ", " + j + ") " + iDate + " == " + jDate);
         }
       }
     }
@@ -142,7 +142,7 @@ public class DateTimeTest {
         if (i == j) {
           assertEquals (iTime, jTime);
         } else {
-          assertFalse ("(" + i + ", " + j + ") " + iTime + " == " + jTime, iTime.equals (jTime));
+          assertFalse ( iTime.equals (jTime), "(" + i + ", " + j + ") " + iTime + " == " + jTime);
         }
       }
     }
@@ -185,7 +185,7 @@ public class DateTimeTest {
         if (i == j) {
           assertEquals (iTime, jTime);
         } else {
-          assertFalse ("(" + i + ", " + j + ") " + iTime + " == " + jTime, iTime.equals (jTime));
+          assertFalse ( iTime.equals (jTime), "(" + i + ", " + j + ") " + iTime + " == " + jTime);
         }
       }
     }

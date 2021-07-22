@@ -15,10 +15,11 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -28,7 +29,7 @@ import java.util.UUID;
 import org.fudgemsg.types.ByteArrayFieldType;
 import org.fudgemsg.types.PrimitiveFieldTypes;
 import org.fudgemsg.types.SecondaryFieldType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the Fudge type dictionary.
@@ -165,36 +166,65 @@ public class FudgeTypeDictionaryTest {
     assertArrayEquals (fooIn.getData (), fooOut.getData ());
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void secondaryToNullError () {
-    final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
-    final UUID uuid = UUID.randomUUID ();
-    final FudgeField uuidField = FudgeMsgField.of(dictionary.getByJavaType(UUID.class), uuid);
-    dictionary.getFieldValue (Thread.class, uuidField);
+    Exception thrown = assertThrows(
+    IllegalArgumentException.class,
+            () -> {
+              final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
+              final UUID uuid = UUID.randomUUID ();
+              final FudgeField uuidField = FudgeMsgField.of(dictionary.getByJavaType(UUID.class), uuid);
+              dictionary.getFieldValue (Thread.class, uuidField);
+            },
+            "Expected secondaryToNullError() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
+
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void secondaryToNoCommonBaseError () {
-    final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
-    dictionary.addType (BarSecondaryType.INSTANCE);
-    final UUID uuid = UUID.randomUUID ();
-    final FudgeField uuidField = FudgeMsgField.of(dictionary.getByJavaType(UUID.class), uuid);
-    dictionary.getFieldValue (Bar.class, uuidField);
+    Exception thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
+              dictionary.addType (BarSecondaryType.INSTANCE);
+              final UUID uuid = UUID.randomUUID ();
+              final FudgeField uuidField = FudgeMsgField.of(dictionary.getByJavaType(UUID.class), uuid);
+              dictionary.getFieldValue (Bar.class, uuidField);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void primaryToNullError () {
-    final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
-    final FudgeField stringField = FudgeMsgField.of(dictionary.getByJavaType(String.class), "hello world");
-    dictionary.getFieldValue (Thread.class, stringField);
+    Exception thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
+              final FudgeField stringField = FudgeMsgField.of(dictionary.getByJavaType(String.class), "hello world");
+              dictionary.getFieldValue (Thread.class, stringField);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void primaryToBadSecondaryError () {
-    final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
-    dictionary.addType (BarSecondaryType.INSTANCE);
-    final FudgeField stringField = FudgeMsgField.of(dictionary.getByJavaType(String.class), "hello world");
-    dictionary.getFieldValue (Bar.class, stringField);
+    Exception thrown = assertThrows(
+            IllegalArgumentException.class,
+            () -> {
+              final FudgeTypeDictionary dictionary = new FudgeTypeDictionary ();
+              dictionary.addType (BarSecondaryType.INSTANCE);
+              final FudgeField stringField = FudgeMsgField.of(dictionary.getByJavaType(String.class), "hello world");
+              dictionary.getFieldValue (Bar.class, stringField);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
 }

@@ -16,12 +16,12 @@
 
 package org.fudgemsg;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 

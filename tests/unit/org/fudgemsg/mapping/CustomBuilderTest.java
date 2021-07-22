@@ -20,9 +20,9 @@ import org.fudgemsg.FudgeContext;
 import org.fudgemsg.FudgeFieldContainer;
 import org.fudgemsg.MutableFudgeFieldContainer;
 import org.fudgemsg.FudgeRuntimeException;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * 
@@ -88,18 +88,27 @@ public class CustomBuilderTest {
   /**
    * 
    */
-  @Test(expected=FudgeRuntimeException.class)
+  @Test
   public void withoutCustomBuilder () {
-    final FudgeDeserializationContext deserialisationContext = new FudgeDeserializationContext (FudgeContext.GLOBAL_DEFAULT);
-    final CustomClass object = new CustomClass (2, 3, 5);
-    final FudgeFieldContainer msg = FudgeContext.GLOBAL_DEFAULT.toFudgeMsg (object).getMessage ();
-    assertEquals ((int)msg.getInt ("AB"), object.getAB ());
-    assertEquals ((int)msg.getInt ("AC"), object.getAC ());
-    assertEquals ((int)msg.getInt ("BC"), object.getBC ());
-    assertEquals (msg.getInt ("a"), null);
-    assertEquals (msg.getInt ("b"), null);
-    assertEquals (msg.getInt ("c"), null);
-    deserialisationContext.fudgeMsgToObject (CustomClass.class, msg);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> {
+              final FudgeDeserializationContext deserialisationContext = new FudgeDeserializationContext (FudgeContext.GLOBAL_DEFAULT);
+              final CustomClass object = new CustomClass (2, 3, 5);
+              final FudgeFieldContainer msg = FudgeContext.GLOBAL_DEFAULT.toFudgeMsg (object).getMessage ();
+              assertEquals ((int)msg.getInt ("AB"), object.getAB ());
+              assertEquals ((int)msg.getInt ("AC"), object.getAC ());
+              assertEquals ((int)msg.getInt ("BC"), object.getBC ());
+              assertEquals (msg.getInt ("a"), null);
+              assertEquals (msg.getInt ("b"), null);
+              assertEquals (msg.getInt ("c"), null);
+              deserialisationContext.fudgeMsgToObject (CustomClass.class, msg);
+            },
+            "Expected withoutCustomBuilder() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), FudgeRuntimeException.class);
+
   }
   
   /**

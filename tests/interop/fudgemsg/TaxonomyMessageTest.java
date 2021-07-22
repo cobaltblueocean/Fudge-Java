@@ -1,4 +1,4 @@
-/**
+package fudgemsg; /**
  * Copyright (C) 2009 - present by OpenGamma Inc. and other contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fudgemsg;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.fudgemsg.*;
 import org.fudgemsg.taxon.FudgeTaxonomy;
 import org.fudgemsg.taxon.MapFudgeTaxonomy;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * This saves (and subsequently reloads) data files containing the message representation of taxonomy objects.
@@ -70,7 +70,7 @@ public class TaxonomyMessageTest {
    */
   @Test
   public void messageLoadingTest () {
-    final FudgeTaxonomy taxon = MapFudgeTaxonomy.fromFudgeMsg (StandardMessageLoadingTest.loadMessage (new FudgeContext (), "taxonomy.dat").getMessage ());
+    final FudgeTaxonomy taxon = MapFudgeTaxonomy.fromFudgeMsg (StandardMessageLoadingTest.loadMessage (new FudgeContext (), "fudgemsg/taxonomy.dat").getMessage ());
     testTaxonomy (taxon);
   }
   
@@ -80,7 +80,7 @@ public class TaxonomyMessageTest {
   @Test
   public void messageRewritingTest () {
     final FudgeFieldContainer reference = testTaxonomyInstance ().toFudgeMsg (new FudgeContext ());
-    StandardMessageRewritingTest.testFile (reference, "taxonomy.dat");
+    StandardMessageRewritingTest.testFile (reference, "fudgemsg/taxonomy.dat");
   }
   
 }

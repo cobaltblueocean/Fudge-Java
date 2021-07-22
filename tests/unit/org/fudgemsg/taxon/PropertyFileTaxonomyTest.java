@@ -15,7 +15,7 @@
  */
 package org.fudgemsg.taxon;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the PropertyFileTaxonomy implementation

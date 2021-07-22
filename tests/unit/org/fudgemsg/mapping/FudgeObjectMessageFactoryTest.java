@@ -16,8 +16,9 @@
 
 package org.fudgemsg.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.fudgemsg.FudgeContext;
 import org.fudgemsg.FudgeFieldContainer;
@@ -26,7 +27,7 @@ import org.fudgemsg.mapping.ObjectMappingTestUtil.MappedNameBean;
 import org.fudgemsg.mapping.ObjectMappingTestUtil.SimpleBean;
 import org.fudgemsg.mapping.ObjectMappingTestUtil.StaticTransientBean;
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -94,13 +95,21 @@ public class FudgeObjectMessageFactoryTest {
   /**
    * 
    */
-  @Test(expected=UnsupportedOperationException.class)
+  @Test
   @Deprecated
   public void objectGraphOld () {
-    SimpleBean recursiveBean = ObjectMappingTestUtil.constructSimpleBean ();
-    recursiveBean.getFieldTwo ().setFieldTwo (recursiveBean);
-    FudgeFieldContainer msg = FudgeObjectMessageFactory.serializeToMessage (recursiveBean, FudgeContext.GLOBAL_DEFAULT);
-    System.out.println (msg);
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> {
+              SimpleBean recursiveBean = ObjectMappingTestUtil.constructSimpleBean ();
+              recursiveBean.getFieldTwo ().setFieldTwo (recursiveBean);
+              FudgeFieldContainer msg = FudgeObjectMessageFactory.serializeToMessage (recursiveBean, FudgeContext.GLOBAL_DEFAULT);
+              System.out.println (msg);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
+
   }
   
   /**
@@ -159,12 +168,19 @@ public class FudgeObjectMessageFactoryTest {
   /**
    * 
    */
-  @Test(expected=UnsupportedOperationException.class)
+  @Test
   public void objectGraph () {
-    SimpleBean recursiveBean = ObjectMappingTestUtil.constructSimpleBean ();
-    recursiveBean.getFieldTwo ().setFieldTwo (recursiveBean);
-    FudgeMsgEnvelope msg = FudgeContext.GLOBAL_DEFAULT.toFudgeMsg (recursiveBean);
-    System.out.println (msg);
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> {
+              SimpleBean recursiveBean = ObjectMappingTestUtil.constructSimpleBean ();
+              recursiveBean.getFieldTwo ().setFieldTwo (recursiveBean);
+              FudgeMsgEnvelope msg = FudgeContext.GLOBAL_DEFAULT.toFudgeMsg (recursiveBean);
+              System.out.println (msg);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
 }

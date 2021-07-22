@@ -16,21 +16,21 @@
 
 package org.fudgemsg.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.fudgemsg.FudgeContext;
 import org.fudgemsg.FudgeFieldContainer;
 import org.fudgemsg.FudgeMsgEnvelope;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class PrimitiveBuilderTest {
   
   private FudgeSerializationContext _scontext;
   private FudgeDeserializationContext _dcontext;
 
-  @Before
+  @BeforeAll
   public void createContext() {
     _scontext = new FudgeSerializationContext(FudgeContext.GLOBAL_DEFAULT);
     _dcontext = new FudgeDeserializationContext(FudgeContext.GLOBAL_DEFAULT);

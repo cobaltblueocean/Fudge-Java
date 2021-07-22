@@ -14,15 +14,19 @@
  * limitations under the License.
  */
 
-package org.fudgemsg;
+package fudgemsg;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.junit.Test;
+import org.fudgemsg.FudgeContext;
+import org.fudgemsg.FudgeFieldContainer;
+import org.fudgemsg.FudgeRuntimeException;
+import org.fudgemsg.StandardFudgeMessages;
+import org.junit.jupiter.api.Test;
 
 /**
  * Writes out messages again and makes sure that we're writing out the same things as before.
@@ -38,7 +42,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void allNames() {
-    testFile(StandardFudgeMessages.createMessageAllNames(s_fudgeContext), "allNames.dat");
+    testFile(StandardFudgeMessages.createMessageAllNames(s_fudgeContext), "fudgemsg/allNames.dat");
   }
   
   /**
@@ -46,7 +50,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void allOrdinals() {
-    testFile(StandardFudgeMessages.createMessageAllOrdinals(s_fudgeContext), "allOrdinals.dat");
+    testFile(StandardFudgeMessages.createMessageAllOrdinals(s_fudgeContext), "fudgemsg/allOrdinals.dat");
   }
   
   /**
@@ -54,7 +58,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void subMsg() {
-    testFile(StandardFudgeMessages.createMessageWithSubMsgs(s_fudgeContext), "subMsg.dat");
+    testFile(StandardFudgeMessages.createMessageWithSubMsgs(s_fudgeContext), "fudgemsg/subMsg.dat");
   }
   
   /**
@@ -62,7 +66,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void fixedWidthByteArrays() {
-    testFile(FudgeInteropTest.createFixedWidthByteArrayMsg(s_fudgeContext), "fixedWidthByteArrays.dat");
+    testFile(FudgeInteropTest.createFixedWidthByteArrayMsg(s_fudgeContext), "fudgemsg/fixedWidthByteArrays.dat");
   }
   
   /**
@@ -70,7 +74,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void variableWidthColumnSizes() {
-    testFile(FudgeInteropTest.createVariableWidthColumnSizes(s_fudgeContext), "variableWidthColumnSizes.dat");
+    testFile(FudgeInteropTest.createVariableWidthColumnSizes(s_fudgeContext), "fudgemsg/variableWidthColumnSizes.dat");
   }
 
   /**
@@ -78,7 +82,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void unknown() {
-    testFile(FudgeInteropTest.createUnknown(s_fudgeContext), "unknown.dat");
+    testFile(FudgeInteropTest.createUnknown(s_fudgeContext), "fudgemsg/unknown.dat");
   }
   
   /**
@@ -86,7 +90,7 @@ public class StandardMessageRewritingTest {
    */
   @Test
   public void dateTimes () {
-    testFile (FudgeInteropTest.createDateTimes (s_fudgeContext), "dateTimes.dat");
+    testFile (FudgeInteropTest.createDateTimes (s_fudgeContext), "fudgemsg/dateTimes.dat");
   }
   
   /**
@@ -102,7 +106,7 @@ public class StandardMessageRewritingTest {
       while(true) {
         int expected = expectedStream.read();
         int actual = actualStream.read();
-        assertEquals("At position " + iByte + " actual was " + actual + " expected was " + expected, actual, expected);
+        assertEquals( actual, expected, "At position " + iByte + " actual was " + actual + " expected was " + expected);
         if((expected < 0) || (actual < 0)) {
           break;
         }

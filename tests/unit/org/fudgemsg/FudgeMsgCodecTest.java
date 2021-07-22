@@ -15,14 +15,14 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.util.Random;
 
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test class that will encode and decode a number of different Fudge messages

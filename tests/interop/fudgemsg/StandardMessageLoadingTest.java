@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.fudgemsg;
+package fudgemsg;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.IOException;
 import java.io.InputStream;
 
+import org.fudgemsg.*;
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Checks that we can load all the files that correspond to standard messages
@@ -38,7 +38,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void allNames() {
-    testFile(StandardFudgeMessages.createMessageAllNames(s_fudgeContext), "allNames.dat");
+    testFile(StandardFudgeMessages.createMessageAllNames(s_fudgeContext), "fudgemsg/allNames.dat");
   }
   
   /**
@@ -46,7 +46,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void allOrdinals() {
-    testFile(StandardFudgeMessages.createMessageAllOrdinals(s_fudgeContext), "allOrdinals.dat");
+    testFile(StandardFudgeMessages.createMessageAllOrdinals(s_fudgeContext), "fudgemsg/allOrdinals.dat");
   }
   
   /**
@@ -54,7 +54,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void subMsg() {
-    testFile(StandardFudgeMessages.createMessageWithSubMsgs(s_fudgeContext), "subMsg.dat");
+    testFile(StandardFudgeMessages.createMessageWithSubMsgs(s_fudgeContext), "fudgemsg/subMsg.dat");
   }
   
   /**
@@ -62,7 +62,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void fixedWidthByteArrays() {
-    testFile(FudgeInteropTest.createFixedWidthByteArrayMsg(s_fudgeContext), "fixedWidthByteArrays.dat");
+    testFile(FudgeInteropTest.createFixedWidthByteArrayMsg(s_fudgeContext), "fudgemsg/fixedWidthByteArrays.dat");
   }
   
   /**
@@ -70,7 +70,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void variableWidthColumnSizes() {
-    testFile(FudgeInteropTest.createVariableWidthColumnSizes(s_fudgeContext), "variableWidthColumnSizes.dat");
+    testFile(FudgeInteropTest.createVariableWidthColumnSizes(s_fudgeContext), "fudgemsg/variableWidthColumnSizes.dat");
   }
 
   /**
@@ -78,7 +78,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void unknown() {
-    testFile(FudgeInteropTest.createUnknown(s_fudgeContext), "unknown.dat");
+    testFile(FudgeInteropTest.createUnknown(s_fudgeContext), "fudgemsg/unknown.dat");
   }
   
   /**
@@ -86,7 +86,7 @@ public class StandardMessageLoadingTest {
    */
   @Test
   public void dateTimes () {
-    testFile (FudgeInteropTest.createDateTimes (s_fudgeContext), "dateTimes.dat");
+    testFile (FudgeInteropTest.createDateTimes (s_fudgeContext), "fudgemsg/dateTimes.dat");
   }
   
   /**

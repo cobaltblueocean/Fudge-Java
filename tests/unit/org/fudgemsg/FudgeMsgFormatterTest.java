@@ -18,7 +18,7 @@ package org.fudgemsg;
 import java.io.PrintWriter;
 
 import org.fudgemsg.xml.FudgeXMLStreamWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 

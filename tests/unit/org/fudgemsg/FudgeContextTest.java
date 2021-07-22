@@ -15,9 +15,10 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +28,7 @@ import org.fudgemsg.taxon.ImmutableMapTaxonomyResolver;
 import org.fudgemsg.taxon.MapFudgeTaxonomy;
 import org.fudgemsg.taxon.TaxonomyResolver;
 import org.fudgemsg.test.FudgeUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -117,8 +118,8 @@ public class FudgeContextTest {
    * @param context
    * @return
    */
-  private FudgeFieldContainer cycleMessage(FudgeFieldContainer msg, FudgeContext context, Short taxonomy) {
-    byte[] content = context.toByteArray (msg, taxonomy);
+  private FudgeFieldContainer cycleMessage(FudgeFieldContainer inputMsg, FudgeContext context, Short taxonomy) {
+    byte[] content = context.toByteArray (inputMsg, taxonomy);
     FudgeMsgEnvelope outputMsgEnvelope = context.deserialize(content);
     assertNotNull(outputMsgEnvelope);
     assertNotNull(outputMsgEnvelope.getMessage());
@@ -141,91 +142,156 @@ public class FudgeContextTest {
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_setTypeDictionary () {
-    FudgeContext.GLOBAL_DEFAULT.setTypeDictionary (null);
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.setTypeDictionary (null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addType () {
-    FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addType (null);
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addType (null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addTypeConverter () {
-    FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addTypeConverter (null, (Class<?>)null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addTypeConverter (null, (Class<?>)null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_typeDictionary () {
-    FudgeContext.GLOBAL_DEFAULT.setTypeDictionary (null);
-    FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addType (null);
-    FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addTypeConverter (null, (Class<?>)null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> {
+              FudgeContext.GLOBAL_DEFAULT.setTypeDictionary (null);
+              FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addType (null);
+              FudgeContext.GLOBAL_DEFAULT.getTypeDictionary ().addTypeConverter (null, (Class<?>)null);
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
 
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_setTaxonomyResolver () {
-    FudgeContext.GLOBAL_DEFAULT.setTaxonomyResolver (createTaxonomyResolver ());
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.setTaxonomyResolver (createTaxonomyResolver ()),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_setObjectDictionary () {
-    FudgeContext.GLOBAL_DEFAULT.setObjectDictionary (null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.setObjectDictionary (null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_setDefaultBuilderFactory () {
-    FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().setDefaultBuilderFactory (null);
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().setDefaultBuilderFactory (null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addGenericBuilder () {
-    FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().getDefaultBuilderFactory ().addGenericBuilder (null, null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().getDefaultBuilderFactory ().addGenericBuilder (null, null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addObjectBuilder () {
-    FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addObjectBuilder (null, null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addObjectBuilder (null, null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addMessageBuilder () {
-    FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addMessageBuilder (null, null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addMessageBuilder (null, null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
   /**
    * 
    */
-  @Test(expected=java.lang.UnsupportedOperationException.class)
+  @Test
   public void immutableContextTest_addBuilder () {
-    FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addBuilder (null, null);
+
+    Exception thrown = assertThrows(
+            java.lang.UnsupportedOperationException.class,
+            () -> FudgeContext.GLOBAL_DEFAULT.getObjectDictionary ().addBuilder (null, null),
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
   }
   
 }

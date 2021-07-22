@@ -15,8 +15,8 @@
  */
 package org.fudgemsg;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,9 +25,9 @@ import java.io.ObjectOutputStream;
 
 import org.fudgemsg.mapping.FudgeObjectReader;
 import org.fudgemsg.mapping.FudgeObjectWriter;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -43,7 +43,7 @@ public class ShortPerformanceTest {
   /**
    * @throws Exception [documentation not available]
    */
-  @BeforeClass
+  @BeforeAll
   public static void warmUpHotSpot() throws Exception {
     System.out.println("Fudge size, Names Only: " + fudgeCycle(true, false));
     System.out.println("Fudge size, Ordinals Only: " + fudgeCycle(false, true));
@@ -71,7 +71,7 @@ public class ShortPerformanceTest {
    * @throws Exception [documentation not available]
    */
   @Test
-  @Ignore("This is just for really large tests")
+  @Disabled("This is just for really large tests")
   public void performanceVersusSerialization1000000Cycles() throws Exception {
     performanceVersusSerialization(1000000);
   }
@@ -169,8 +169,7 @@ public class ShortPerformanceTest {
     sb = new StringBuilder();
     sb.append("Serialization: ").append(serializationSplit).append("cycles/sec");
     System.out.println(sb.toString());
-    assertTrue("Serialization faster by " + (fudgeDeltaObjectNoTaxonomy - serializationDelta) + "ms",
-        serializationDelta > fudgeDeltaObjectNoTaxonomy);
+    assertTrue(serializationDelta > fudgeDeltaObjectNoTaxonomy, "Serialization faster by " + (fudgeDeltaObjectNoTaxonomy - serializationDelta) + "ms");
   }
   
   /**
@@ -274,7 +273,7 @@ public class ShortPerformanceTest {
    * @throws Exception [documentation not available]
    */
   @Test
-  @Ignore
+  @Disabled
   public void performanceCheck () throws Exception {
     final int nCycles = 100000;
     long start, end;
@@ -319,9 +318,9 @@ public class ShortPerformanceTest {
     System.out.println ("Fudge serialisation (enc) " + deltaFudgeObjectMappingToMsg + "ms");
     System.out.println ("Fudge serialisation (dec) " + deltaFudgeObjectMappingFromMsg + "ms");
     System.out.println ("Fudge serialisation " + (deltaFudgeObjectMappingToMsg + deltaFudgeObjectMappingFromMsg) + "ms");
-    assertTrue ("Java cycle faster by " + ((deltaFudgeObjectMappingToMsg + deltaFudgeObjectMappingFromMsg) - (deltaSerialisationToMsg + deltaSerialisationFromMsg)) + "ms", (deltaFudgeObjectMappingToMsg + deltaFudgeObjectMappingFromMsg) < (deltaSerialisationToMsg + deltaSerialisationFromMsg));
-    assertTrue ("Java encoding faster by " + (deltaFudgeObjectMappingToMsg - deltaSerialisationToMsg) + "ms", deltaFudgeObjectMappingToMsg < deltaSerialisationToMsg);
-    assertTrue ("Java decoding faster by " + (deltaFudgeObjectMappingFromMsg - deltaSerialisationFromMsg) + "ms", deltaFudgeObjectMappingFromMsg < deltaSerialisationFromMsg);
+    assertTrue ((deltaFudgeObjectMappingToMsg + deltaFudgeObjectMappingFromMsg) < (deltaSerialisationToMsg + deltaSerialisationFromMsg),"Java cycle faster by " + ((deltaFudgeObjectMappingToMsg + deltaFudgeObjectMappingFromMsg) - (deltaSerialisationToMsg + deltaSerialisationFromMsg)) + "ms");
+    assertTrue ( deltaFudgeObjectMappingToMsg < deltaSerialisationToMsg, "Java encoding faster by " + (deltaFudgeObjectMappingToMsg - deltaSerialisationToMsg) + "ms");
+    assertTrue ( deltaFudgeObjectMappingFromMsg < deltaSerialisationFromMsg, "Java decoding faster by " + (deltaFudgeObjectMappingFromMsg - deltaSerialisationFromMsg) + "ms");
   }
 
 }

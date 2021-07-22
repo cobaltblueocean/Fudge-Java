@@ -16,9 +16,9 @@
 
 package org.fudgemsg.mapping;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 
@@ -29,8 +29,8 @@ import org.fudgemsg.MutableFudgeFieldContainer;
 import org.fudgemsg.test.FudgeUtils;
 import org.fudgemsg.types.SecondaryFieldType;
 import org.fudgemsg.types.StringFieldType;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import com.mongodb.DBObject;
 
@@ -106,7 +106,7 @@ public class MongoDBFudgeBuilderTest {
    * Written while investigating FRJ-83.
    */
   @Test
-  @Ignore("Until FRJ-84 is done")
+  @Disabled("Until FRJ-84 is done")
   public void fudgeDateTime() {
     Date d = new Date();
     MutableFudgeFieldContainer inputMsg = FudgeContext.GLOBAL_DEFAULT.newMessage();

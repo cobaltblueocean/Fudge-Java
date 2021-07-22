@@ -16,10 +16,11 @@
 
 package org.fudgemsg;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -29,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.fudgemsg.FudgeStreamReader.FudgeStreamElement;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * 
@@ -99,19 +100,27 @@ public class FudgeStreamTest {
   /**
    * [FRJ-66] throw an EOF midway through an envelope
    */
-  @Test(expected=FudgeRuntimeIOException.class)
+  @Test
   public void readMultipleMessagesUnderlyingErroring () {
-    final InputStream in = prepareThreeMessageStream ();
-    readMultipleMessagesUnderlying (new InputStream () {
-      private int count = 0;
-      public int read () throws IOException {
-        if (count++ < 40) {
-          return in.read ();
-        } else {
-          throw new EOFException ();
-        }
-      }
-    });
+    Exception thrown = assertThrows(
+            FudgeRuntimeIOException.class,
+            () -> {
+              final InputStream in = prepareThreeMessageStream ();
+              readMultipleMessagesUnderlying (new InputStream () {
+                private int count = 0;
+                public int read () throws IOException {
+                  if (count++ < 40) {
+                    return in.read ();
+                  } else {
+                    throw new EOFException ();
+                  }
+                }
+              });
+            },
+            "Expected doThing() to throw, but it didn't"
+    );
+    assertEquals(thrown.getClass(), java.lang.UnsupportedOperationException.class);
+
   }
   
   /**
