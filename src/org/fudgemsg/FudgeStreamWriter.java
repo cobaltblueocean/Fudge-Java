@@ -26,7 +26,7 @@ import org.fudgemsg.taxon.FudgeTaxonomy;
  * to build full Fudge message writers or serializers to convert Java objects directly
  * to Fudge streams.
  */
-public interface FudgeStreamWriter extends Flushable, Closeable {
+public interface FudgeStreamWriter extends Flushable, Closeable, AutoCloseable {
 
   /**
    * Returns the bound {@link FudgeContext} used for type and taxonomy resolution.

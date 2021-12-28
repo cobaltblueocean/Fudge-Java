@@ -95,10 +95,21 @@ public class FudgeTime implements TimeProvider {
    * @param timezoneOffset timezone offset in 15 minute intervals from UTC
    * @param localTime the time
    */
+  protected FudgeTime (final DateTimeAccuracy accuracy, final int timezoneOffset, final org.threeten.bp.LocalTime localTime) {
+    this (accuracy, timezoneOffset, localTime.toSecondOfDay (), localTime.getNano());
+  }
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param timezoneOffset timezone offset in 15 minute intervals from UTC
+   * @param localTime the time
+   */
   protected FudgeTime (final DateTimeAccuracy accuracy, final int timezoneOffset, final LocalTime localTime) {
     this (accuracy, timezoneOffset, localTime.toSecondOfDay (), localTime.getNanoOfSecond ());
   }
-  
+
   /**
    * Creates a new Fudge time representation.
    * 
@@ -108,7 +119,27 @@ public class FudgeTime implements TimeProvider {
   protected FudgeTime (final DateTimeAccuracy accuracy, final LocalTime localTime) {
     this (accuracy, NO_TIMEZONE_OFFSET, localTime);
   }
-  
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param localTime the time
+   */
+  protected FudgeTime (final DateTimeAccuracy accuracy, final org.threeten.bp.LocalTime localTime) {
+    this (accuracy, NO_TIMEZONE_OFFSET, localTime);
+  }
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param localDateTime the time
+   */
+  protected FudgeTime (final DateTimeAccuracy accuracy, final org.threeten.bp.LocalDateTime localDateTime) {
+    this (accuracy, NO_TIMEZONE_OFFSET, localDateTime.getHour() * 3600 + localDateTime.getMinute()  * 60 + localDateTime.getSecond(), localDateTime.getNano());
+  }
+
   /**
    * Creates a new Fudge time representation.
    * 
@@ -118,7 +149,17 @@ public class FudgeTime implements TimeProvider {
   protected FudgeTime (final DateTimeAccuracy accuracy, final Instant instant) {
     this (accuracy, OffsetTime.ofInstant (instant, ZoneOffset.UTC));
   }
-  
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param instant time instant - the corresponding time at UTC will be used
+   */
+  protected FudgeTime (final DateTimeAccuracy accuracy, final org.threeten.bp.Instant instant) {
+    this (accuracy, OffsetTime.ofInstant (Instant.ofEpochNanos(instant.toEpochMilli() * 1000 + instant.getNano()), ZoneOffset.UTC));
+  }
+
   /**
    * Creates a new Fudge time representation.
    * 
@@ -127,17 +168,47 @@ public class FudgeTime implements TimeProvider {
   public FudgeTime (final OffsetTime offsetTime) {
     this (DateTimeAccuracy.NANOSECOND, offsetTime);
   }
-  
+
+
   /**
    * Creates a new Fudge time representation.
-   * 
+   *
+   * @param offsetTime time
+   */
+  public FudgeTime (final org.threeten.bp.OffsetTime offsetTime) {
+    this (DateTimeAccuracy.NANOSECOND, offsetTime);
+  }
+
+  /**
+   * Creates a new Fudge time representation.
+   *
    * @param accuracy granularity of the representation
    * @param offsetTime time
    */
   public FudgeTime (final DateTimeAccuracy accuracy, final OffsetTime offsetTime) {
     this (accuracy, offsetTime.getOffset ().getAmountSeconds () / 900, offsetTime.toLocalTime ());
   }
-  
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param offsetTime time
+   */
+  public FudgeTime (final DateTimeAccuracy accuracy, final org.threeten.bp.OffsetTime offsetTime) {
+    this (accuracy, offsetTime.getOffset ().getTotalSeconds () / 900, offsetTime.toLocalTime ());
+  }
+
+  /**
+   * Creates a new Fudge time representation.
+   *
+   * @param accuracy granularity of the representation
+   * @param offsetDateTime time
+   */
+  public FudgeTime (final DateTimeAccuracy accuracy, final org.threeten.bp.OffsetDateTime offsetDateTime) {
+    this (accuracy, offsetDateTime.getOffset ().getTotalSeconds () / 900, offsetDateTime.toLocalTime ());
+  }
+
   /**
    * Creates a new Fudge time representation.
    * 

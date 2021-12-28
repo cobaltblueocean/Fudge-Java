@@ -25,7 +25,7 @@ import org.fudgemsg.FudgeMsgReader;
  * 
  * @author Andrew Griffin
  */
-public class FudgeObjectReader {
+public class FudgeObjectReader implements AutoCloseable {
   
   private final FudgeMsgReader _messageReader;
   

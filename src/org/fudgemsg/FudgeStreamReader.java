@@ -25,7 +25,7 @@ import org.fudgemsg.taxon.FudgeTaxonomy;
  * to build full Fudge message parsers or deserialisers to construct Java objects directly
  * from Fudge streams.
  */
-public interface FudgeStreamReader extends Closeable {
+public interface FudgeStreamReader extends Closeable, AutoCloseable {
   
   /**
    * Constants for the four stream element types as returned by {@link #next()} and {@link #getCurrentElement()}.

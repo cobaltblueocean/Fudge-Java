@@ -124,6 +124,18 @@ public final class ClasspathUtilities {
   /**
    * Returns a set of classes with the declared annotation, using a cache file on disk if one is
    * available.
+   *
+   * @param annotationClassName annotation to search for
+   * @return the set of class names
+   */
+  public static Set<String> getClassNamesWithAnnotation(String annotationClassName) throws ClassNotFoundException
+  {
+      return getClassNamesWithAnnotation(Class.forName(annotationClassName).asSubclass(Annotation.class));
+  }
+
+  /**
+   * Returns a set of classes with the declared annotation, using a cache file on disk if one is
+   * available.
    * 
    * @param annotationClass annotation to search for
    * @return the set of class names

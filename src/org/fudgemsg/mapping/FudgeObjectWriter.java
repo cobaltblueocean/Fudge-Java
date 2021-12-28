@@ -25,7 +25,7 @@ import org.fudgemsg.FudgeMsgWriter;
  * 
  * @author Andrew Griffin
  */
-public class FudgeObjectWriter {
+public class FudgeObjectWriter implements AutoCloseable {
   
   private final FudgeMsgWriter _messageWriter;
   

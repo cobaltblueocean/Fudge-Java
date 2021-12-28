@@ -23,10 +23,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.fudgemsg.ClasspathUtilities;
-import org.fudgemsg.FudgeContext;
-import org.fudgemsg.FudgeFieldContainer;
-import org.fudgemsg.MutableFudgeFieldContainer;
+import org.fudgemsg.*;
+import org.fudgemsg.reflector.Reflector;
+import org.reflections.Configuration;
 
 /**
  * Extensible dictionary of types that Fudge can convert to and from wire format.
@@ -339,6 +338,23 @@ public class FudgeObjectDictionary {
       throw new IllegalArgumentException("Annotated a generic builder " + builderClass + " but not a full FudgeBuilder<> implementation.");
     }
     getDefaultBuilderFactory().addGenericBuilder(forClass, (FudgeBuilder) builderInstance);
+  }
+
+  public void addAllAnnotatedBuilders(AnnotationReflector annotationReflector)
+  {
+    Reflector ref = annotationReflector.getReflector();
+    Configuration conf = ref.getConfiguration();
+    if (conf != null)
+    {
+      ClassLoader[] loaders = conf.getClassLoaders();
+      if (loaders != null)
+      {
+        for (int i = 0; i < loaders.length; i++)
+        {
+          addAnnotatedBuilderClass(loaders[i].getClass().getName());
+        }
+      }
+    }
   }
 
   /**

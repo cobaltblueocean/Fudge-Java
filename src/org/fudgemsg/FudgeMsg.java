@@ -15,7 +15,10 @@
  */
 package org.fudgemsg;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import org.fudgemsg.taxon.FudgeTaxonomy;
 import org.fudgemsg.types.ByteArrayFieldType;
@@ -43,7 +46,7 @@ public class FudgeMsg extends FudgeMsgBase implements MutableFudgeFieldContainer
    * 
    * @param fudgeContext the {@code FudgeContext} to use for type resolution and other services 
    */
-  protected FudgeMsg(FudgeContext fudgeContext) {
+  public FudgeMsg(FudgeContext fudgeContext) {
     super(fudgeContext);
   }
 
@@ -56,7 +59,7 @@ public class FudgeMsg extends FudgeMsgBase implements MutableFudgeFieldContainer
    * @param fields  the initial set of fields, not null
    * @param fudgeContext  the context to use for type resolution and other services, not null
    */
-  protected FudgeMsg(final FudgeFieldContainer fields, final FudgeContext fudgeContext) {
+  public FudgeMsg(final FudgeFieldContainer fields, final FudgeContext fudgeContext) {
     super(fields, fudgeContext);
   }
 
@@ -148,6 +151,16 @@ public class FudgeMsg extends FudgeMsgBase implements MutableFudgeFieldContainer
     }
     FudgeMsgField field = FudgeMsgField.of(type, value, name, ordinalAsShort);
     getFields().add(field);
+  }
+
+  /**
+   * Add SubMessage to this message.
+   * @param name the name for SubMessage
+   * @param fudgeMsg
+   */
+  public FudgeMsg addSubMessage(String name, FudgeMsgBase fudgeMsg) {
+    add(name, (int)FudgeTypeDictionary.FUDGE_MSG_TYPE_ID, fudgeMsg);
+    return this;
   }
 
   /**
@@ -268,4 +281,16 @@ public class FudgeMsg extends FudgeMsgBase implements MutableFudgeFieldContainer
     return obj instanceof FudgeMsg && super.equals(obj);
   }
 
+  public MutableFudgeMsg toMutableFudgeMsg()
+  {
+    MutableFudgeMsg mutableFudgeMsg = new MutableFudgeMsg(super.getFudgeContext());
+    List<FudgeField> fields = getFields();
+
+    for (FudgeField field : fields)
+    {
+      mutableFudgeMsg.add(field);
+    }
+
+    return mutableFudgeMsg;
+  }
 }

@@ -28,7 +28,7 @@ import org.fudgemsg.taxon.FudgeTaxonomy;
 /**
  * Implementation of a {@link FudgeStreamWriter} that writes to a {@link DataOutput}.
  */
-public class FudgeDataOutputStreamWriter implements FudgeStreamWriter {
+public class FudgeDataOutputStreamWriter implements FudgeStreamWriter, AutoCloseable {
   
   private final FudgeContext _fudgeContext;
   private final DataOutput _dataOutput;

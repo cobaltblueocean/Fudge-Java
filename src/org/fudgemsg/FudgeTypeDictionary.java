@@ -15,15 +15,17 @@
  */
 package org.fudgemsg;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.fudgemsg.mapping.FudgeBuilderFor;
+import org.fudgemsg.reflector.Reflector;
+import org.fudgemsg.reflector.Store;
 import org.fudgemsg.types.ByteArrayFieldType;
 import org.fudgemsg.types.DateFieldType;
 import org.fudgemsg.types.DateTimeFieldType;
@@ -47,6 +49,7 @@ import org.fudgemsg.types.StringFieldTypeConverter;
 import org.fudgemsg.types.TimeFieldType;
 import org.fudgemsg.types.UnknownFudgeFieldType;
 import org.fudgemsg.types.secondary.SecondaryTypeLoader;
+import org.reflections.Configuration;
 
 /**
  * The dictionary of all known Fudge types.
@@ -197,6 +200,53 @@ public class FudgeTypeDictionary {
       _typesByJavaType.put(alternativeType, type);
     }
   }
+
+  public void registerClassRename(String className, Class<?> type) throws ClassNotFoundException {
+    Class<?> oldClass = Class.forName(className);
+    FudgeFieldType<?> oldValue = _typesByJavaType.get(type);
+    FudgeFieldType<?> newValue = new FudgeFieldType(0, type, true, 0);
+
+    if (!isPremitiveType(oldClass) || !isPremitiveType(type))
+    {
+      _typesByJavaType.replace(type, oldValue, newValue);
+    }
+  }
+
+  public void removeType(Class<?> type) {
+    if (type == null) {
+      throw new NullPointerException("Must not provide a null Type to remove.");
+    }
+    if (!isPremitiveType(type)) {
+      _typesByJavaType.remove(type);
+      _convertersByJavaType.remove(type);
+    }
+  }
+
+  public void removeType(FudgeFieldType<?> type)
+  {
+    if (type == null) {
+      throw new NullPointerException("Must not provide a null FudgeFieldType to remove.");
+    }
+    if (!isDefaultType(type)) {
+      Set<Class<?>> keys = _typesByJavaType.keySet();
+
+      for (int i = 0; i < _typesByJavaType.size(); i++) {
+        if (_typesByJavaType.get(keys.toArray()[i]) == type) {
+          _typesByJavaType.remove(keys.toArray()[i]);
+          break;
+        }
+      }
+
+      Set<Class<?>> keys2 = _convertersByJavaType.keySet();
+      for (int i = 0; i < _convertersByJavaType.size(); i++) {
+        if (_convertersByJavaType.get(keys2.toArray()[i]) == type) {
+          _convertersByJavaType.remove(keys2.toArray()[i]);
+          break;
+        }
+      }
+    }
+  }
+
 
   /**
    * Resolves a Java class to a {@link FudgeFieldType} registered with this dictionary.
@@ -461,6 +511,107 @@ public class FudgeTypeDictionary {
     }
   }
 
+  public void addAllAnnotatedSecondaryTypes(AnnotationReflector annotationReflector) {
+    Reflector ref = annotationReflector.getReflector();
+    Store store = ref.getStore2();
+
+    if (store != null) {
+      Collection<Map<String, Set<String>>> values = store.values();
+      for (Map<String, Set<String>> item : values)
+      {
+        Set<String> keys = item.keySet();
+
+        for (String key : keys)
+        {
+          Set<String> vals = item.get(key);
+          for (String val : vals)
+          {
+            addAnnotatedSecondaryTypeClass(val);
+          }
+        }
+
+      }
+    }
+  }
+
+  public static boolean isDefaultType(FudgeFieldType<?> type)
+  {
+    if (type == ByteArrayFieldType.LENGTH_4_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_8_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_16_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_20_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_32_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_64_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_128_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_256_INSTANCE
+            || type == ByteArrayFieldType.LENGTH_512_INSTANCE
+            || type == PrimitiveFieldTypes.BOOLEAN_TYPE
+            || type == PrimitiveFieldTypes.BYTE_TYPE
+            || type == PrimitiveFieldTypes.SHORT_TYPE
+            || type == PrimitiveFieldTypes.INT_TYPE
+            || type == PrimitiveFieldTypes.LONG_TYPE
+            || type == PrimitiveFieldTypes.FLOAT_TYPE
+            || type == ShortArrayFieldType.INSTANCE
+            || type == IntArrayFieldType.INSTANCE
+            || type == LongArrayFieldType.INSTANCE
+            || type == IndicatorFieldType.INSTANCE
+            || type == FloatArrayFieldType.INSTANCE
+            || type == PrimitiveFieldTypes.DOUBLE_TYPE
+            || type == DoubleArrayFieldType.INSTANCE
+            || type == ByteArrayFieldType.VARIABLE_SIZED_INSTANCE
+            || type == StringFieldType.INSTANCE
+            || type == FudgeMsgFieldType.INSTANCE
+            || type == DateFieldType.INSTANCE
+            || type == TimeFieldType.INSTANCE
+            || type == DateTimeFieldType.INSTANCE)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public static boolean isPremitiveType(Class<?> type)
+  {
+    if (type == ByteArrayFieldType.LENGTH_4_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_8_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_16_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_20_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_32_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_64_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_128_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_256_INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.LENGTH_512_INSTANCE.getJavaType()
+            || type == PrimitiveFieldTypes.BOOLEAN_TYPE.getJavaType()
+            || type == PrimitiveFieldTypes.BYTE_TYPE.getJavaType()
+            || type == PrimitiveFieldTypes.SHORT_TYPE.getJavaType()
+            || type == PrimitiveFieldTypes.INT_TYPE.getJavaType()
+            || type == PrimitiveFieldTypes.LONG_TYPE.getJavaType()
+            || type == PrimitiveFieldTypes.FLOAT_TYPE.getJavaType()
+            || type == ShortArrayFieldType.INSTANCE.getJavaType()
+            || type == IntArrayFieldType.INSTANCE.getJavaType()
+            || type == LongArrayFieldType.INSTANCE.getJavaType()
+            || type == IndicatorFieldType.INSTANCE.getJavaType()
+            || type == FloatArrayFieldType.INSTANCE.getJavaType()
+            || type == PrimitiveFieldTypes.DOUBLE_TYPE.getJavaType()
+            || type == DoubleArrayFieldType.INSTANCE.getJavaType()
+            || type == ByteArrayFieldType.VARIABLE_SIZED_INSTANCE.getJavaType()
+            || type == StringFieldType.INSTANCE.getJavaType()
+            || type == FudgeMsgFieldType.INSTANCE.getJavaType()
+            || type == DateFieldType.INSTANCE.getJavaType()
+            || type == TimeFieldType.INSTANCE.getJavaType()
+            || type == DateTimeFieldType.INSTANCE.getJavaType())
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
   // --------------------------
   // STANDARD FUDGE FIELD TYPES
   // --------------------------
@@ -531,7 +682,13 @@ public class FudgeTypeDictionary {
    * Standard Fudge field type: embedded Fudge sub-message. See <a href="http://wiki.fudgemsg.org/display/FDG/Types">Fudge Types</a> for more details.
    */
   public static final byte FUDGE_MSG_TYPE_ID = (byte)15;
-  
+
+
+  /**
+   * Standard Fudge field type: Header. See <a href="http://wiki.fudgemsg.org/display/FDG/Types">Fudge Types</a> for more details.
+   */
+  public static final byte TYPES_HEADER_ID = (byte)29;
+
   // End message indicator type removed as unnecessary, hence no 16
   
   // The fixed-width byte arrays:

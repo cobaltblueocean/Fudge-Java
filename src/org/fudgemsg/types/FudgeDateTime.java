@@ -123,20 +123,59 @@ public class FudgeDateTime implements DateTimeProvider, InstantProvider {
    * 
    * @param localDateTime date - Midnight on this day will be used for the time
    */
-  protected FudgeDateTime (final LocalDateTime localDateTime) {
+  public FudgeDateTime (final LocalDateTime localDateTime) {
     this (DateTimeAccuracy.NANOSECOND, localDateTime);
   }
-  
+
+  /**
+   * Creates a new Fudge date/time representation.
+   *
+   * @param localDateTime date - Midnight on this day will be used for the time
+   */
+  public FudgeDateTime (final org.threeten.bp.LocalDateTime localDateTime) {
+    this (DateTimeAccuracy.NANOSECOND, localDateTime);
+  }
+
+  /**
+   * Creates a new Fudge date/time representation.
+   *
+   * @param offsetDateTime date - Midnight on this day will be used for the time
+   */
+  public FudgeDateTime (final org.threeten.bp.OffsetDateTime offsetDateTime) {
+    this (DateTimeAccuracy.NANOSECOND, offsetDateTime);
+  }
+
+
   /**
    * Creates a new Fudge date/time representation.
    * 
    * @param accuracy resolution of the representation 
    * @param localDateTime date and time
    */
-  protected FudgeDateTime (final DateTimeAccuracy accuracy, final LocalDateTime localDateTime) {
+  public FudgeDateTime (final DateTimeAccuracy accuracy, final LocalDateTime localDateTime) {
     this (new FudgeDate (localDateTime), new FudgeTime (accuracy, localDateTime));
   }
-  
+
+  /**
+   * Creates a new Fudge date/time representation.
+   *
+   * @param accuracy resolution of the representation
+   * @param localDateTime date and time
+   */
+  public FudgeDateTime (final DateTimeAccuracy accuracy, final org.threeten.bp.LocalDateTime localDateTime) {
+    this (new FudgeDate (localDateTime), new FudgeTime (accuracy, localDateTime));
+  }
+
+  /**
+   * Creates a new Fudge date/time representation.
+   *
+   * @param accuracy resolution of the representation
+   * @param offsetDateTime date and time
+   */
+  public FudgeDateTime (final DateTimeAccuracy accuracy, final org.threeten.bp.OffsetDateTime offsetDateTime) {
+    this (new FudgeDate (offsetDateTime), new FudgeTime (accuracy, offsetDateTime));
+  }
+
   /**
    * Creates a new Fudge date/time representation.
    * 
@@ -298,5 +337,38 @@ public class FudgeDateTime implements DateTimeProvider, InstantProvider {
   public Instant toInstant () {
     return toOffsetDateTime ().toInstant ();
   }
-  
+
+  public org.threeten.bp.Instant toThreeTenInstant()
+  {
+    return org.threeten.bp.Instant.ofEpochSecond(toInstant ().getEpochSeconds(), (long)toInstant ().getNanoOfSecond());
+  }
+
+  public org.threeten.bp.LocalTime toThreeTenLocalTime()
+  {
+    return org.threeten.bp.LocalTime.of(toLocalTime().getHourOfDay(),  toLocalTime().getMinuteOfHour());
+  }
+
+  public org.threeten.bp.LocalDate toThreeTenLocalDate()
+  {
+    return org.threeten.bp.LocalDate.of(toLocalDate().getYear(), toLocalDate().getMonthOfYear().getValue(), toLocalDate().getDayOfMonth());
+  }
+
+  public org.threeten.bp.LocalDateTime toThreeTenLocalDateTime()
+  {
+    return org.threeten.bp.LocalDateTime.of(toLocalDate().getYear(), toLocalDate().getMonthOfYear().getValue(), toLocalDate().getDayOfMonth(),
+            toLocalTime().getHourOfDay(),  toLocalTime().getMinuteOfHour(),  toLocalTime().getSecondOfMinute(), toLocalTime().getNanoOfSecond());
+  }
+
+  public org.threeten.bp.ZonedDateTime toThreeTenZonedDateTime()
+  {
+
+    return org.threeten.bp.ZonedDateTime.of(toLocalDate().getYear(), toLocalDate().getMonthOfYear().getValue(), toLocalDate().getDayOfMonth(),
+            toLocalTime().getHourOfDay(),  toLocalTime().getMinuteOfHour(),  toLocalTime().getSecondOfMinute(), toLocalTime().getNanoOfSecond(),
+            org.threeten.bp.ZonedDateTime.now().getZone());
+  }
+
+  public org.threeten.bp.OffsetDateTime toThreeTenOffsetDateTime ()
+  {
+    return org.threeten.bp.OffsetDateTime.of(toThreeTenLocalDateTime(), org.threeten.bp.ZonedDateTime.now().getOffset());
+  }
 }

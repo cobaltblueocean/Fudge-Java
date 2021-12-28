@@ -25,7 +25,7 @@ import java.io.Flushable;
  * 
  * @author Andrew Griffin
  */
-public class FudgeMsgWriter implements Flushable {
+public class FudgeMsgWriter implements Flushable, AutoCloseable {
   
   /**
    * The underlying target for Fudge stream elements.

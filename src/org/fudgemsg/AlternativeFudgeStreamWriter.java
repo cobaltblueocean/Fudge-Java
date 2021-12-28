@@ -25,7 +25,7 @@ import org.fudgemsg.taxon.FudgeTaxonomy;
  * 
  * @author Andrew Griffin
  */
-public abstract class AlternativeFudgeStreamWriter implements FudgeStreamWriter {
+public abstract class AlternativeFudgeStreamWriter implements FudgeStreamWriter, AutoCloseable {
   
   private final FudgeContext _fudgeContext;
   private FudgeTaxonomy _taxonomy = null;
