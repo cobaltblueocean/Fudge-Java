@@ -19,6 +19,8 @@ package org.fudgemsg;
 import org.fudgemsg.FudgeStreamReader.FudgeStreamElement;
 import org.fudgemsg.types.FudgeMsgFieldType;
 
+import java.io.Closeable;
+
 /**
  * A reader for returning whole Fudge messages ({@link FudgeFieldContainer} instances) from an underlying {@link FudgeStreamReader} instance.
  * This implementation constructs the whole Fudge message in memory before returning to the caller. This is provided for convenience - greater
@@ -26,16 +28,16 @@ import org.fudgemsg.types.FudgeMsgFieldType;
  * 
  * @author Andrew Griffin
  */
-public class FudgeMsgReader {
+public class FudgeMsgReader implements Closeable, AutoCloseable {
   
   /**
    * The underlying source of Fudge elements.
    */
   private final FudgeStreamReader _streamReader;
-  
+
   /**
    * An envelope buffer for reading in the current message. {@link #hasNext} will read the envelope header, and create this object
-   * with a {@link MutableFudgeFieldContainer} attached to it. The full call to {@link nextMessage} or {@link #nextMessageEnvelope} will
+   * with a {@link MutableFudgeFieldContainer} attached to it. The full call to {@link #nextMessage()} or {@link #nextMessageEnvelope} will
    * process the message fields.
    */
   private FudgeMsgEnvelope _currentEnvelope = null;
@@ -51,7 +53,7 @@ public class FudgeMsgReader {
     }
     _streamReader = streamReader;
   }
-  
+
   /**
    * Closes this {@link FudgeMsgReader} and the underlying {@link FudgeStreamReader}.
    */

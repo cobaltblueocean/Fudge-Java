@@ -29,10 +29,10 @@ public class FudgeRuntimeException extends RuntimeException {
    * Instances should not be created other than to wrap checked exceptions.
    * A standard Java runtime exception should be used where possible.
    * 
-   * @param message  the description of the error condition, may be null
+   * @param e  the description of the error condition, may be null
    */
-  protected FudgeRuntimeException(String message) {
-    super(message);
+  public FudgeRuntimeException(Exception e) {
+    super(e);
   }
 
   /**

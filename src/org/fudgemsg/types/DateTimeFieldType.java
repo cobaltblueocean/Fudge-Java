@@ -27,7 +27,7 @@ import org.fudgemsg.FudgeTypeDictionary;
 /**
  * <p>The type definition for a date. This is currently backed by a {@link FudgeDateTime}. The secondary
  * type mechanism is used to support additional Java representations, such as {@link Date}, {@link Calendar}
- * and {@code javax.time} classes.</p>
+ * and {@code org.threeten.bp} classes.</p>
  *
  * @author Andrew Griffin
  */

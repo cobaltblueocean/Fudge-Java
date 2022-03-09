@@ -75,7 +75,28 @@ public class FudgeXMLSettings {
      */
     ENCODING;
   }
-  
+
+  /**
+   * Default name for the processing directives field.
+   */
+  public static final String DEFAULT_PROCESSINGDIRECTIVES_FIELD = "fudgeProcessingDirectives";
+
+  /**
+   * Default name for the schema version field.
+   */
+  public static final String DEFAULT_SCHEMAVERSION_FIELD = "fudgeSchemaVersion";
+
+  private String _processingDirectivesField = DEFAULT_PROCESSINGDIRECTIVES_FIELD;
+  private String _schemaVersionField = DEFAULT_SCHEMAVERSION_FIELD;
+  private String _taxonomyField = DEFAULT_TAXONOMY_FIELD;
+
+  private boolean _preferFieldNames = true;
+
+  /**
+   * Default name for the taxonomy field.
+   */
+  public static final String DEFAULT_TAXONOMY_FIELD = "fudgeTaxonomy";
+
   /**
    * Default element name for the outer envelope tag. 
    */
@@ -937,5 +958,69 @@ public class FudgeXMLSettings {
   public void setAppendFieldOrdinal (final boolean appendFieldOrdinal) {
     _appendFieldOrdinal = appendFieldOrdinal;
   }
-  
+
+
+  /**
+   * Returns the name of the field to use for the processing directives, or {@code null} if it is to be omitted.
+   *
+   * @return the field name, or {@code null} to omit
+   */
+  public String getProcessingDirectivesField () {
+    return _processingDirectivesField;
+  }
+
+  /**
+   * Returns the name of the field to use for the schema version, or {@code null} if it is to be omitted.
+   *
+   * @return the field name, or {@code null} to omit
+   */
+  public String getSchemaVersionField () {
+    return _schemaVersionField;
+  }
+
+  /**
+   * Returns the name of the field to use for the taxonomy, or {@code null} if it is to be omitted.
+   *
+   * @return the field name, or {@code null} to omit
+   */
+  public String getTaxonomyField () {
+    return _taxonomyField;
+  }
+
+  /**
+   * Sets the field name to use for adding the message processing directives to the JSON object. Set to {@code null} to
+   * omit the field.
+   *
+   * @param processingDirectivesField field name or {@code null} to omit
+   */
+  public void setProcessingDirectivesField (final String processingDirectivesField) {
+    _processingDirectivesField = processingDirectivesField;
+  }
+
+  /**
+   * Sets the field name to use for adding the schema version to the JSON object. Set to {@code null} to omit the field.
+   *
+   * @param schemaVersionField field name or {@code null} to omit
+   */
+  public void setSchemaVersionField (final String schemaVersionField) {
+    _schemaVersionField = schemaVersionField;
+  }
+
+  /**
+   * Sets the field name to use for adding the taxonomy Id to the JSON object. Set to {@code null} to omit the field.
+   *
+   * @param taxonomyField field name or {@code null} to omit
+   */
+  public void setTaxonomyField (final String taxonomyField) {
+    _taxonomyField = taxonomyField;
+  }
+
+  public void setPreferFieldNames (final boolean preferFieldNames) {
+    _preferFieldNames = preferFieldNames;
+  }
+
+  public boolean getPreferFieldNames () {
+    return _preferFieldNames;
+  }
+
 }
